@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PRC Webhook Dashboard</title>
+    <style>
+        body { font-family: Arial; background: #111; color: #fff; }
+        .event { background: #222; padding: 10px; margin: 10px 0; border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+<h1>Live PRC Events</h1>
+<div id="events"></div>
+
+<script>
+async function loadEvents() {
+    const res = await fetch("/events");
+    const data = await res.json();
+
+    const container = document.getElementById("events");
+    container.innerHTML = "";
+
+    data.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "event";
+        div.textContent = JSON.stringify(e, null, 2);
+        container.appendChild(div);
+    });
+}
+
+setInterval(loadEvents, 2000);
+</script>
+
+</body>
+</html>
